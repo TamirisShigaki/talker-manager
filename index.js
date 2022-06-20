@@ -1,6 +1,7 @@
 const express = require('express');
-const fs = require('fs').promises;
 const bodyParser = require('body-parser');
+
+const utils = require('./fs-utils');
 
 const app = express();
 app.use(bodyParser.json());
@@ -13,23 +14,18 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-function getTalker() {
-  return fs.readFile('./talker.json', 'utf-8')
-    .then((fileContent) => JSON.parse(fileContent));
-}
-
 app.get('/talker', async (_req, res) => {
   try {
-    const talkers = await getTalker();
+    const talkers = await utils.getTalker();
 
     return res.status(HTTP_OK_STATUS).json(talkers);
   } catch (error) {
-    return res.status(HTTP_OK_STATUS).end();
+    return res.status(HTTP_OK_STATUS).json([]);
   }
 });
 
 app.get('/talker/:id', async (req, res) => {
-  const talkers = await getTalker();
+  const talkers = await utils.getTalker();
   const talker = talkers.find(({ id }) => id === Number(req.params.id));
   
     if (!talker) {
