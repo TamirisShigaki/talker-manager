@@ -5,6 +5,12 @@ const crypto = require('crypto');
 const utils = require('./fs-utils');
 const validateEmail = require('./middlewares/validateEmail');
 const validatePassword = require('./middlewares/validatePassword');
+const authMiddleware = require('./middlewares/authMiddleware');
+const validateName = require('./middlewares/validadeName');
+const validateAge = require('./middlewares/validateAge');
+const validateTalk = require('./middlewares/validateTalk');
+const validateWatchedAt = require('./middlewares/authMiddleware');
+const validateRate = require('./middlewares/validateRate');
 
 const app = express();
 app.use(bodyParser.json());
@@ -41,6 +47,26 @@ app.post('/login', validateEmail, validatePassword, (_req, res) => {
   const token = { token: `${crypto.randomBytes(8).toString('hex')}` };
 
   res.status(HTTP_OK_STATUS).json(token);
+});
+
+app.use(authMiddleware,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatchedAt,
+  validateRate);
+
+app.post('/talker', async (req, res) => {
+    const { name, age, talk } = req.body;
+    const talkerManager = await utils.getTalker();
+    const newId = talkerManager.length + 1;
+    const newTalker = { name, age, id: newId, talk };
+
+    talkerManager.push(newTalker);
+
+    await utils.setTalker(talkerManager);
+
+    res.status(201).json(newTalker);
 });
 
 app.listen(PORT, () => {
