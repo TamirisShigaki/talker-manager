@@ -1,3 +1,5 @@
+// Requisito 5
+
 module.export = (req, res, next) => {
     const { talk: { rate } } = req.body;
 

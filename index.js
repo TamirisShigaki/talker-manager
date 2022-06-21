@@ -49,7 +49,7 @@ app.post('/login', validateEmail, validatePassword, (_req, res) => {
   res.status(HTTP_OK_STATUS).json(token);
 });
 
-// Requsiito 5
+// Requisito 5
 app.use(authMiddleware);
 
 app.post('/talker',
