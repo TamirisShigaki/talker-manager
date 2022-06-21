@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 
+const { Console } = require('console');
 const utils = require('./fs-utils');
 const validateEmail = require('./middlewares/validateEmail');
 const validatePassword = require('./middlewares/validatePassword');
@@ -58,8 +59,7 @@ validateAge,
 validateTalk,
 validateWatchedAt,
 validateRate,
-async (req, res, next) => {
-  try {
+async (req, res) => {
     const { name, age, talk } = req.body;
     const talkers = await utils.getTalker();
     const id = talkers.length + 1;
@@ -67,11 +67,8 @@ async (req, res, next) => {
     const newFile = [...talkers, newTalker];
   
     await utils.setTalker(newFile);
-    
+  console.log(newFile);
     return res.status(201).json(newTalker);
-  } catch (error) {
-    next(error);
-  }
 });
 
 app.listen(PORT, () => {

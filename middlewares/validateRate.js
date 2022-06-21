@@ -1,6 +1,6 @@
 // Requisito 5
 
-module.export = (req, res, next) => {
+module.exports = (req, res, next) => {
     const { talk: { rate } } = req.body;
 
     if (!rate) {
@@ -8,8 +8,8 @@ module.export = (req, res, next) => {
             message: 'O campo "rate" é obrigatório',
         });
     }
-    if (rate < 1 || rate > 5) {
-        return res.status(201).json({
+    if (Number(rate) < 1 || Number(rate) > 5) {
+        return res.status(400).json({
             message: 'O campo "rate" deve ser um inteiro de 1 à 5',
         });
     }

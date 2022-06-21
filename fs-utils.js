@@ -6,7 +6,7 @@ function getTalker() {
 }
 
 function setTalker(newTalker) {
-  return fs.writeFile('./Talker.json', JSON.stringify(newTalker));
+  return fs.writeFile('./talker.json', JSON.stringify(newTalker));
 }
 
 module.exports = { getTalker, setTalker };
