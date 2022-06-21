@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 
-const { Console } = require('console');
 const utils = require('./fs-utils');
 const validateEmail = require('./middlewares/validateEmail');
 const validatePassword = require('./middlewares/validatePassword');
