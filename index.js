@@ -93,6 +93,17 @@ validateRate,
     return res.status(200).json({ id: Number(id), name, age, talk });
   });
 
+// Requisito 7
+app.delete('/talker/:id', async (req, res) => {
+  const { id } = req.params;
+  const talkers = await utils.getTalker();
+  const talkerIndex = talkers.findIndex((talker) => talker.id === Number(id));
+
+  await utils.setTalker(talkerIndex);
+
+  return res.status(204).end();
+});
+
 app.listen(PORT, () => {
   console.log('Online');
 });
