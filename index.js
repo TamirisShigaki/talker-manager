@@ -11,6 +11,7 @@ const validateName = require('./middlewares/validateName');
 const validateRate = require('./middlewares/validateRate');
 const validateTalk = require('./middlewares/validateTalk');
 const validateWatchedAt = require('./middlewares/validateWatchedAt');
+const validateQuery = require('./middlewares/validateQuery');
 
 const app = express();
 app.use(bodyParser.json());
@@ -29,6 +30,20 @@ app.get('/talker', async (_req, res) => {
   } catch (error) {
     return res.status(HTTP_OK_STATUS).json([]);
   }
+});
+
+// Requisito 8
+
+app.get('/talker/search', authMiddleware, validateQuery, async (req, res) => {
+    const { q } = req.query;
+    const talkers = await utils.getTalker();
+
+    const searchByName = talkers.filter((talker) => talker.name.includes(q));
+
+    if (!searchByName) {
+      return res.status(200).json([]);
+    }
+    return res.status(200).json(searchByName);
 });
 
 // Requisito 2
@@ -90,7 +105,7 @@ validateRate,
     });
 
     await utils.setTalker(newTalkers);
-    return res.status(200).json({ id: Number(id), name, age, talk });
+    return res.status(HTTP_OK_STATUS).json({ id: Number(id), name, age, talk });
   });
 
 // Requisito 7
