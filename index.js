@@ -66,9 +66,32 @@ async (req, res) => {
     const newFile = [...talkers, newTalker];
   
     await utils.setTalker(newFile);
-  console.log(newFile);
+
     return res.status(201).json(newTalker);
 });
+
+// Requisito 6 
+app.put('/talker/:id',
+validateName,
+validateAge,
+validateTalk,
+validateWatchedAt,
+validateRate,
+  async (req, res) => {
+    const { name, age, talk } = req.body;
+    const { id } = req.params;
+
+    const talkers = await utils.getTalker();
+    const newTalkers = talkers.map((talker) => {
+      if (talker.id === Number(id)) {
+        return { id: Number(id), name, age, talk };
+      }
+      return talker;
+    });
+
+    await utils.setTalker(newTalkers);
+    return res.status(200).json({ id: Number(id), name, age, talk });
+  });
 
 app.listen(PORT, () => {
   console.log('Online');
