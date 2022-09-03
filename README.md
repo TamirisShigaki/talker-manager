@@ -1,4 +1,10 @@
-# 🚧 README em construção 🚧
+# 🚧 Readme em construção 🚧
+
+## 25 – Projeto Talker Manager
+
+## Contexto
+
+Projeto pessoal desenvolvido na Trybe, onde tive que desenvolver uma aplicação Express usando middlewares.
 
 <!-- Olá, Tryber!
 
